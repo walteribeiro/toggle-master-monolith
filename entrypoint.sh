@@ -1,4 +1,5 @@
 #!/bin/sh
+# NOTE: This script must use Unix line endings (LF). Do not convert to Windows CRLF.
 
 # O que este script faz:
 # 1. Checa as variáveis de ambiente para o banco de dados.

@@ -1,0 +1,6 @@
+# Set default behavior for auto line ending handling
+* text=auto
+
+# Force LF (Unix) line endings for shell scripts to ensure Docker compatibility across Windows, Linux, and macOS
+*.sh text eol=lf
+

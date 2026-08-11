@@ -11,7 +11,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY entrypoint.sh .
 
-RUN chmod +x entrypoint.sh
+# Ensure entrypoint.sh has Unix line endings (LF) and execute permissions even if built on Windows
+RUN sed -i 's/\r$//' entrypoint.sh && chmod +x entrypoint.sh
 
 COPY app.py .
 
