@@ -2,7 +2,7 @@
 
 **Integrantes do Grupo:**
 - **Mayara Finatto** — RM375879
-- **Walter Ribeiro** — RM [Preencher RM do Walter]
+- **Walter Ribeiro** — RM375778
 
 ---
 
@@ -11,8 +11,8 @@
 O **ToggleMaster** é uma plataforma de *Feature Flag as a Service*. Em sua primeira fase (MVP), ele foi construído como um **monolito**.
 
 ### 1.1. Características Monolíticas Identificadas no Código
-- **Unidade Única de Código**: O arquivo [`app.py`](file:///c:/Users/mayar/dev/pos-grad-devops/toggle-master-monolith/app.py) concentra todas as responsabilidades — roteamento HTTP, validações, regras de negócio, queries SQL (`psycopg2`) e inicialização do banco (`init-db`).
-- **Artefato Único de Deploy**: Todo o sistema é empacotado em uma única imagem Docker ([`Dockerfile`](file:///c:/Users/mayar/dev/pos-grad-devops/toggle-master-monolith/Dockerfile)) e executado como um único processo Gunicorn.
+- **Unidade Única de Código**: O arquivo [`app.py`](./app.py) concentra todas as responsabilidades — roteamento HTTP, validações, regras de negócio, queries SQL (`psycopg2`) e inicialização do banco (`init-db`).
+- **Artefato Único de Deploy**: Todo o sistema é empacotado em uma única imagem Docker ([`Dockerfile`](./Dockerfile)) e executado como um único processo Gunicorn.
 - **Base de Dados Compartilhada**: Todos os endpoints interagem com a mesma base PostgreSQL e com a tabela `flags`.
 - **Escalabilidade em Bloco**: Para aumentar a capacidade de leitura de flags, é necessário replicar o processo completo da aplicação.
 
@@ -28,7 +28,7 @@ O **ToggleMaster** é uma plataforma de *Feature Flag as a Service*. Em sua prim
 
 ## 2. Análise Prática dos 12 Fatores (12-Factor App)
 
-Análise crítica baseada no código atual e nas percepções iniciais registradas em [`relatorio.md`](file:///c:/Users/mayar/dev/pos-grad-devops/toggle-master-monolith/relatorio.md).
+Análise crítica baseada no código atual e nas percepções iniciais registradas em [`relatorio.md`](./relatorio.md).
 
 ### I. Base de Código (Codebase)
 - **Status**: ✅ **Atende totalmente**
@@ -36,12 +36,12 @@ Análise crítica baseada no código atual e nas percepções iniciais registrad
 
 ### II. Dependências (Dependencies)
 - **Status**: 🟡 **Atende parcialmente**
-- **Análise Técnica**: O isolamento de runtime é garantido pela imagem Docker (`python:3.9-slim`), e as bibliotecas Python são declaradas via [`requirements.txt`](file:///c:/Users/mayar/dev/pos-grad-devops/toggle-master-monolith/requirements.txt).
+- **Análise Técnica**: O isolamento de runtime é garantido pela imagem Docker (`python:3.9-slim`), e as bibliotecas Python são declaradas via [`requirements.txt`](./requirements.txt).
 - **Ponto de Melhoria**: Pinar as versões exatas das dependências no `requirements.txt` (ex.: `Flask==2.3.3`, `gunicorn==21.2.0`, `psycopg2-binary==2.9.9`) para evitar divergências em builds futuros.
 
 ### III. Configurações (Config)
 - **Status**: ✅ **Atende totalmente**
-- **Análise Técnica**: O código em [`app.py`](file:///c:/Users/mayar/dev/pos-grad-devops/toggle-master-monolith/app.py) lê estritamente todas as configurações por variáveis de ambiente (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT`) usando `os.getenv()`. Elas são injetadas externamente (via `docker-compose.yaml` em dev ou `export` na EC2). Nenhuma credencial está contida no código-fonte.
+- **Análise Técnica**: O código em [`app.py`](./app.py) lê estritamente todas as configurações por variáveis de ambiente (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT`) usando `os.getenv()`. Elas são injetadas externamente (via `docker-compose.yaml` em dev ou `export` na EC2). Nenhuma credencial está contida no código-fonte.
 - **Esclarecimento sobre o "arquivo/doc separado para variáveis" (`.env`)**:
   - A intuição do time em ter um arquivo separado (como `.env`) faz todo sentido para organização local do projeto. 
   - Para o 12-Factor, a regra estrita é que **o código não dependa de arquivos de configuração com credenciais dentro do repositório**. As variáveis devem vir do sistema operacional/ambiente de execução.
@@ -94,7 +94,7 @@ Análise crítica baseada no código atual e nas percepções iniciais registrad
 
 ## 3. Resumo da Avaliação e Próximos Passos para a Fase 1 (AWS)
 
-1. **Validação das Anotações do Time**: As percepções em [`relatorio.md`](file:///c:/Users/mayar/dev/pos-grad-devops/toggle-master-monolith/relatorio.md) estão **muito boas e acertadas**. As únicas duas correções necessárias foram de ajuste de conceito formal do 12-Factor:
+1. **Validação das Anotações do Time**: As percepções em [`relatorio.md`](./relatorio.md) estão **muito boas e acertadas**. As únicas duas correções necessárias foram de ajuste de conceito formal do 12-Factor:
    - **Fator IV (Serviços de Apoio)** trata de recursos de rede anexados (o PostgreSQL/RDS), e não da ferramenta de logs.
    - **Fator XI (Logs)** exige apenas que o código envie os logs para `stdout`/`stderr` (o que a aplicação já faz); a ferramenta de armazenamento/agregação é responsabilidade da infraestrutura da nuvem (CloudWatch).
 
