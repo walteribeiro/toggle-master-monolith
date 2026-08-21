@@ -1,0 +1,77 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="wHOancVgEk1p2r5V5AP4" name="ToggleMaster - AWS Architecture v1">
+    <mxGraphModel dx="2162" dy="835" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-1" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3E;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.users;" value="Users" vertex="1">
+          <mxGeometry height="78" width="78" x="60" y="277" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-2" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3E;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.user;" value="Admin (specific IP)" vertex="1">
+          <mxGeometry height="78" width="78" x="70" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-3" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=13;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E;dashed=0;" value="&lt;b&gt;AWS Cloud (us-east-1)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="750" width="1100" x="260" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-4" parent="Lg0C3_9yqGXAPr4z99pS-3" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=13;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#8C4FFF;dashed=0;" value="&lt;b&gt;VPC — togglemaster-vpc (10.0.0.0/16)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="670" width="1010" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-5" parent="Lg0C3_9yqGXAPr4z99pS-4" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#945DF2;gradientDirection=north;fillColor=#5A30B5;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.internet_gateway;" value="Internet Gateway" vertex="1">
+          <mxGeometry height="78" width="78" x="30" y="187" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-6" parent="Lg0C3_9yqGXAPr4z99pS-4" style="fillColor=#E9F3E6;strokeColor=#248814;dashed=0;verticalAlign=top;align=left;spacingLeft=10;fontColor=#248814;html=1;whiteSpace=wrap;container=1;collapsible=0;recursiveResize=0;pointerEvents=0;fontSize=13;" value="&lt;b&gt;Public subnet — 10.0.1.0/24 (us-east-1a)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="300" width="342.86" x="170" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-7" parent="Lg0C3_9yqGXAPr4z99pS-6" style="fillColor=none;strokeColor=#DD3522;dashed=1;verticalAlign=top;align=left;spacingLeft=10;fontColor=#DD3522;html=1;whiteSpace=wrap;container=1;collapsible=0;recursiveResize=0;fontSize=12;" value="&lt;b&gt;Security Group — togglemaster-ec2-sg&lt;/b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;i&gt;Inbound:&amp;nbsp;&lt;/i&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;- HTTP 80&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;- HTTPS 443&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;-&amp;nbsp; App 5000 from Internet&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;- SSH 22 only from &amp;lt;YOUR_IP&amp;gt;/32&lt;/i&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="240" width="283.64" x="30" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-8" parent="Lg0C3_9yqGXAPr4z99pS-7" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;" value="EC2 — ToggleMaster App&lt;br&gt;(Gunicorn :5000)" vertex="1">
+          <mxGeometry height="78" width="78" x="102.82" y="113" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-9" parent="Lg0C3_9yqGXAPr4z99pS-4" style="fillColor=#E6F2F8;strokeColor=#147EBA;dashed=0;verticalAlign=top;align=left;spacingLeft=10;fontColor=#147EBA;html=1;whiteSpace=wrap;container=1;collapsible=0;recursiveResize=0;pointerEvents=0;fontSize=13;" value="&lt;b&gt;Private subnet — 10.0.2.0/24 (us-east-1a)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="300" width="342.86" x="600" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-10" parent="Lg0C3_9yqGXAPr4z99pS-9" style="fillColor=none;strokeColor=#DD3522;dashed=1;verticalAlign=top;align=left;spacingLeft=10;fontColor=#DD3522;html=1;whiteSpace=wrap;container=1;collapsible=0;recursiveResize=0;fontSize=12;" value="&lt;b&gt;Security Group — togglemaster-rds-sg&lt;br&gt;&lt;i&gt;&lt;br&gt;&lt;/i&gt;&lt;/b&gt;&lt;div&gt;&lt;i&gt;&lt;b&gt;Inbound:&amp;nbsp;&lt;/b&gt;&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;- PostgreSQL 5432 only from togglemaster-ec2-sg&lt;/i&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="229.09" width="283.64" x="30" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-11" parent="Lg0C3_9yqGXAPr4z99pS-10" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#4D72F3;gradientDirection=north;fillColor=#3334B9;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rds;" value="Amazon RDS&lt;br&gt;PostgreSQL (togglemaster)" vertex="1">
+          <mxGeometry height="78" width="78" x="102.43" y="107" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-12" parent="Lg0C3_9yqGXAPr4z99pS-4" style="fillColor=#E6F2F8;strokeColor=#147EBA;dashed=0;verticalAlign=top;align=left;spacingLeft=10;fontColor=#147EBA;html=1;whiteSpace=wrap;container=1;collapsible=0;recursiveResize=0;pointerEvents=0;fontSize=13;" value="&lt;b&gt;Private subnet — 10.0.3.0/24 (us-east-1b)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="170" width="342.86" x="600" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-13" parent="Lg0C3_9yqGXAPr4z99pS-12" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontColor=#147EBA;whiteSpace=wrap;fontStyle=1" value="Reservada para o DB Subnet Group&lt;br&gt;&lt;i&gt;(o RDS exige sub-redes em pelo menos 2 AZs)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="248.57" x="47.53" y="69" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-15" parent="Lg0C3_9yqGXAPr4z99pS-4" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontColor=#147EBA;whiteSpace=wrap;fontStyle=1" value="Route table privada: apenas rota local (sem saída para a internet)" vertex="1">
+          <mxGeometry height="20" width="350" x="600" y="357" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-16" parent="Lg0C3_9yqGXAPr4z99pS-4" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#3334B9;whiteSpace=wrap;fontStyle=1" value="DB Subnet Group (RDS):&amp;nbsp;&lt;div&gt;10.0.2.0/24 (us-east-1a) + 10.0.3.0/24 (us-east-1b)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="400" x="600" y="384" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-14" parent="Lg0C3_9yqGXAPr4z99pS-4" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontColor=#248814;whiteSpace=wrap;fontStyle=1" value="Route table pública: 0.0.0.0/0 → Internet Gateway" vertex="1">
+          <mxGeometry height="24" width="342.86" x="170" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-17" edge="1" parent="1" source="Lg0C3_9yqGXAPr4z99pS-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#545B64;fontColor=#232F3E;fontSize=12;fontStyle=1" target="Lg0C3_9yqGXAPr4z99pS-5" value="HTTP/HTTPS — app on :5000">
+          <mxGeometry relative="1" x="-0.0417" y="16" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-18" edge="1" parent="1" source="Lg0C3_9yqGXAPr4z99pS-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#545B64;fontColor=#232F3E;fontSize=11;" target="Lg0C3_9yqGXAPr4z99pS-8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-19" edge="1" parent="1" source="Lg0C3_9yqGXAPr4z99pS-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#545B64;fontColor=#232F3E;fontSize=12;dashed=1;fontStyle=1" target="Lg0C3_9yqGXAPr4z99pS-8" value="SSH :22 (restricted to a specific IP)">
+          <mxGeometry relative="1" x="-0.3899" y="-1" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="641.79" y="449" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Lg0C3_9yqGXAPr4z99pS-20" edge="1" parent="1" source="Lg0C3_9yqGXAPr4z99pS-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#545B64;fontColor=#232F3E;fontSize=12;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;fontStyle=1" target="Lg0C3_9yqGXAPr4z99pS-11" value="PostgreSQL :5432 (source: ec2-sg only)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
