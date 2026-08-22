@@ -126,3 +126,5 @@ Análise crítica do alinhamento da aplicação com as boas práticas do 12-Fact
 Abaixo está a projeção detalhada de custos para a infraestrutura provisionada na AWS (Região `us-east-1`):
 
 ![Estimativa de Custos](./estimativa-custos.png)
+
+Também disponível em: https://calculator.aws/#/estimate?id=ee39fa3e25cfcab2f7f02eb89df31e97d9d46505
