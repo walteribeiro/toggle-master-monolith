@@ -10,7 +10,7 @@
 
 ## 🔗 Links e Documentação da Entrega
 
-- **Vídeo de Demonstração (YouTube / Loom)**: `[Inserir Link do Vídeo Aqui]`
+- **Vídeo de Demonstração**: `[Inserir Link do Vídeo Aqui]`
 - **Diagrama de Arquitetura AWS**: Arquivo [`aws-architecture-diagram.drawio`](./aws-architecture-diagram.drawio)
 - **Repositório Git**: `[Link do Repositório Git]`
 
@@ -117,13 +117,12 @@ Análise crítica do alinhamento da aplicação com as boas práticas do 12-Fact
 1. **Primeiro Contato e Compreensão dos 12 Fatores**:
    - Este foi o primeiro contato da equipe com a metodologia *12-Factor App*. O maior desafio foi correlacionar os conceitos teóricos (como *Backing Services* e *Logs*) com a realidade do código em Python/Flask e entender onde termina a responsabilidade da aplicação e onde começa a da infraestrutura.
 2. **Gerenciamento Manual de Variáveis de Ambiente no Terminal**:
-   - Durante a execução do servidor Gunicorn na EC2, o carregamento das variáveis via `export` precisava ser feito manualmente a cada nova sessão de terminal SSH. Como melhoria futura, o gerenciamento de serviços pode ser automatizado via `systemd` ou Docker em produção.
+   - Durante a execução do servidor Gunicorn na EC2, o carregamento das variáveis via `export` precisava ser feito manualmente a cada nova sessão de terminal SSH. Como melhoria futura, o gerenciamento de serviços será automatizado via `systemd` ou Docker em produção.
 
 ---
 
 ## 4. Arquitetura na Nuvem e Estimativa de Custos (AWS)
 
-### 4.1. Estimativa de Custos Mensais (AWS Pricing Calculator)
 Abaixo está a projeção detalhada de custos para a infraestrutura provisionada na AWS (Região `us-east-1`):
 
 ![Estimativa de Custos](./estimativa-custos.png)
