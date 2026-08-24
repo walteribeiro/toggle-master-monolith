@@ -45,9 +45,8 @@ Análise crítica do alinhamento da aplicação com as boas práticas do 12-Fact
 - **Análise Técnica**: Existe um único repositório Git rastreado por controle de versão. A partir desta base única, são realizados múltiplos deploys em diferentes ambientes (desenvolvimento local com Docker Compose e produção na AWS EC2).
 
 ### II. Dependências (Dependencies)
-- **Status**: 🟡 **Atende parcialmente**
-- **Análise Técnica**: O isolamento de runtime é garantido pela imagem Docker (`python:3.9-slim`), e as bibliotecas Python são declaradas via [`requirements.txt`](./requirements.txt).
-- **Ponto de Melhoria**: Pinar as versões exatas das dependências no `requirements.txt` (ex.: `Flask==2.3.3`, `gunicorn==21.2.0`, `psycopg2-binary==2.9.9`) para evitar divergências em builds futuros.
+- **Status**: ✅ **Atende totalmente**
+- **Análise Técnica**: O isolamento de runtime é garantido pela imagem Docker (`python:3.9-slim`), e as bibliotecas Python são declaradas via [`requirements.txt`](./requirements.txt). Além disso, as versões exatas das dependências são declaradas no `requirements.txt` (ex.: `Flask==2.3.3`, `gunicorn==21.2.0`, `psycopg2-binary==2.9.9`), o que evita divergências de versões.
 
 ### III. Configurações (Config)
 - **Status**: ✅ **Atende totalmente**
