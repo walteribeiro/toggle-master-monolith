@@ -46,7 +46,7 @@ Análise crítica do alinhamento da aplicação com as boas práticas do 12-Fact
 
 ### II. Dependências (Dependencies)
 - **Status**: ✅ **Atende totalmente**
-- **Análise Técnica**: O isolamento de runtime é garantido pela imagem Docker (`python:3.9-slim`), e as bibliotecas Python são declaradas via [`requirements.txt`](./requirements.txt). Além disso, as versões exatas das dependências são declaradas no `requirements.txt` (ex.: `Flask==2.3.3`, `gunicorn==21.2.0`, `psycopg2-binary==2.9.9`), o que evita divergências de versões.
+- **Análise Técnica**: O isolamento de runtime é garantido pela imagem Docker (`python:3.9-slim`), e as bibliotecas Python são declaradas via [`requirements.txt`](./requirements.txt). Além disso, o arquivo fixa versões exatas para todas as dependências (`Flask==2.2.2`, `Werkzeug==2.3.8`, `psycopg2-binary==2.9.5` e `gunicorn==20.1.0`), reduzindo divergências entre builds.
 
 ### III. Configurações (Config)
 - **Status**: ✅ **Atende totalmente**
@@ -90,12 +90,12 @@ Análise crítica do alinhamento da aplicação com as boas práticas do 12-Fact
 - **Ponto de Melhoria**: Adotar Infraestrutura como Código (Terraform) para criar ambientes de Staging e Produção idênticos e padronizar o deploy de contêineres na nuvem (ex.: AWS ECS).
 
 ### XI. Logs
-- **Status**: ✅ **Atende no código / Necessita agregação em infra**
-- **Clarificação**: No 12-Factor, a aplicação **nunca** deve gerenciar ou armazenar seus próprios arquivos de log. Ela deve emitir o fluxo de eventos não-formatado diretamente na saída padrão (`stdout`/`stderr`). O `app.py` e o Gunicorn já fazem isso perfeitamente. Cabe à infraestrutura (AWS CloudWatch Logs / Docker Logging Driver) capturar e armazenar esse fluxo.
+- **Status**: 🟡 **Atende parcialmente**
+- **Clarificação**: No 12-Factor, a aplicação **nunca** deve gerenciar ou armazenar seus próprios arquivos de log. As mensagens de inicialização e os logs do Gunicorn são direcionados para a saída padrão (`stdout`/`stderr`), e cabe à infraestrutura (AWS CloudWatch Logs ou Docker Logging Driver) capturar e armazenar esse fluxo. Entretanto, o `app.py` ainda não utiliza explicitamente o módulo `logging` para registrar falhas e eventos relevantes das requisições; em vários casos, os erros são apenas capturados e retornados na resposta HTTP.
 
 ### XII. Processos Administrativos (Admin Processes)
-- **Status**: ✅ **Atende totalmente**
-- **Análise Técnica**: A inicialização do banco (`flask init-db`) é executada no mesmo ambiente e imagem do código através do [`entrypoint.sh`](./entrypoint.sh). Para evoluções futuras, recomenda-se adotar uma ferramenta de migração de banco (como Alembic/Flask-Migrate) para gerenciar alterações de schema e scripts de rollback.
+- **Status**: 🟡 **Atende parcialmente**
+- **Análise Técnica**: A aplicação disponibiliza o comando administrativo `flask init-db`, executado no mesmo ambiente e imagem do código através do [`entrypoint.sh`](./entrypoint.sh). Entretanto, atualmente esse comando é acoplado à inicialização do contêiner e executado a cada startup, em vez de ser tratado como uma tarefa administrativa independente. Para melhorar a aderência ao 12-Factor, recomenda-se utilizar uma ferramenta de migração, como Alembic ou Flask-Migrate, e executar as migrações como um processo administrativo separado, com falhas retornando código de erro.
 
 ---
 
