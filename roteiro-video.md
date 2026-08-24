@@ -50,7 +50,7 @@
   - *(Apontar para os componentes do diagrama)*
 - **[Mayara]**: *"Nossa arquitetura conta com os seguintes componentes principais:"*
   1. *"**VPC com CIDR /24**: Definimos o bloco de endereçamento `/24` para a nossa rede virtual."*
-  2. *"**Subrede Pública**: Onde fica a nossa instância EC2 (`t3.micro`) rodando Ubuntu Server. Ela possui um IP Público para receber requisições HTTP na porta 5000 e permitir acesso SSH na porta 22 para administração."*
+  2. *"**Subrede Pública**: Onde fica a nossa instância EC2 (`t2.micro`) rodando Ubuntu Server. Ela possui um IP Público para receber requisições HTTP na porta 5000 e permitir acesso SSH na porta 22 para administração."*
   3. *"**Duas Subredes Privadas (Multi-AZ)**: Criadas em zonas de disponibilidade diferentes para atender aos requisitos do Amazon RDS, garantindo que a base de dados relacional PostgreSQL não fique exposta diretamente à internet."*
   4. *"**Security Groups**: Criamos regras estritas de firewall. O grupo do RDS permite tráfego na porta 5432 **exclusivamente vindo do Security Group da EC2**."*
 
