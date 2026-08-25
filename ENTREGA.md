@@ -10,9 +10,9 @@
 
 ## 🔗 Links e Documentação da Entrega
 
-- **Vídeo de Demonstração**: `[Inserir Link do Vídeo Aqui]`
-- **Diagrama de Arquitetura AWS**: Arquivo [`aws-architecture-diagram.drawio`](./aws-architecture-diagram.drawio)
-- **Repositório Git**: `[Link do Repositório Git]`
+- **Vídeo de Demonstração**: [`Youtube`](https://youtu.be/2sGbq-hscMY) | [`Google Drive`](https://docs.google.com/videos/d/1A5Eip8zQSsJWqqrSavVVVBJ5OVGJylzvEQ8oahBSvUU/play?usp=sharing)
+- **Diagrama de Arquitetura AWS**: [`aws-architecture-diagram.drawio`](./aws-architecture-diagram.drawio)
+- **Repositório Git**: [`toggle-master-monolith`](https://github.com/walteribeiro/toggle-master-monolith)
 
 ---
 
