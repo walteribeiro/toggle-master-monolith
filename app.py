@@ -1,21 +1,57 @@
 import os
+import json
+import boto3
+from botocore.exceptions import ClientError
 from flask import Flask, request, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 
-DB_HOST = os.getenv("DB_HOST")
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
+def carregar_config_db():
+    config = {
+        "host": os.getenv("DB_HOST"),
+        "port": os.getenv("DB_PORT", "5432"),
+        "dbname": os.getenv("DB_NAME"),
+        "user": os.getenv("DB_USER"),
+        "password": os.getenv("DB_PASSWORD"),
+    }
+
+    secret_name = os.getenv("AWS_SECRET_NAME")
+    if not secret_name:
+        return config
+
+    client = boto3.session.Session().client(
+        service_name="secretsmanager",
+        region_name=os.getenv("AWS_REGION", "us-east-1"),
+    )
+    try:
+        response = client.get_secret_value(SecretId=secret_name)
+    except ClientError as e:
+        raise RuntimeError(
+            f"Não foi possível ler o segredo '{secret_name}' no AWS Secrets Manager: {e}"
+        ) from e
+
+    secret = json.loads(response["SecretString"])
+
+    # Aceita tanto chaves no padrão DB_* quanto no padrão dos secrets
+    # gerados pelo console do RDS (username/password/host/port/dbname).
+    config["host"] = secret.get("DB_HOST") or secret.get("host") or config["host"]
+    config["port"] = str(secret.get("DB_PORT") or secret.get("port") or config["port"])
+    config["dbname"] = secret.get("DB_NAME") or secret.get("dbname") or config["dbname"]
+    config["user"] = secret.get("DB_USER") or secret.get("username") or config["user"]
+    config["password"] = secret.get("DB_PASSWORD") or secret.get("password") or config["password"]
+    return config
+
+DB_CONFIG = carregar_config_db()
 
 def get_db_connection():
     conn = psycopg2.connect(
-        host=DB_HOST,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD
+        host=DB_CONFIG["host"],
+        port=DB_CONFIG["port"],
+        database=DB_CONFIG["dbname"],
+        user=DB_CONFIG["user"],
+        password=DB_CONFIG["password"]
     )
     return conn
 
