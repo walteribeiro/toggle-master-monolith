@@ -1,6 +1,25 @@
-# Tech Challenge - Fase 1: Plataforma "ToggleMaster"
+# toggle-master-monolith
 
-Bem-vindo à primeira fase do Tech Challenge do curso de DevOps! Neste projeto, construiremos uma plataforma de *Feature Flag as a Service* chamada **ToggleMaster**.
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+
+## About
+
+ToggleMaster, a Feature Flag as a Service MVP: Python monolithic API containerized with Docker and deployed to AWS EC2, delivered as phase 1 of a DevOps Tech Challenge. Includes the architecture diagram, cost estimate and delivery report.
+
+## Tech Stack
+
+- Python
+- Docker
+- Docker Compose
+- AWS EC2
+
+## Getting Started
+
+```bash
+git clone https://github.com/walteribeiro/toggle-master-monolith.git
+cd toggle-master-monolith
+docker compose up --build
+```
 
 ## 📖 Cenário
 
@@ -300,3 +319,7 @@ Você deve entregar os seguintes itens:
 - **📝 DOCUMENTAÇÃO:** Uma boa documentação é parte crucial da cultura DevOps. Descreva suas escolhas e justifique-as.
 
 Boa sorte!
+
+## Author
+
+**Walter Ribeiro** · [GitHub](https://github.com/walteribeiro)
