@@ -46,15 +46,14 @@ Análise crítica do alinhamento da aplicação com as boas práticas do 12-Fact
 
 ### II. Dependências (Dependencies)
 - **Status**: ✅ **Atende totalmente**
-- **Análise Técnica**: O isolamento de runtime é garantido pela imagem Docker (`python:3.9-slim`), e as bibliotecas Python são declaradas via [`requirements.txt`](./requirements.txt). Além disso, o arquivo fixa versões exatas para todas as dependências (`Flask==2.2.2`, `Werkzeug==2.3.8`, `psycopg2-binary==2.9.5` e `gunicorn==20.1.0`), reduzindo divergências entre builds.
+- **Análise Técnica**: O isolamento de runtime é garantido pela imagem Docker (`python:3.9-slim`), e as bibliotecas Python são declaradas via [`requirements.txt`](./requirements.txt). Além disso, o arquivo fixa versões exatas para todas as dependências (`Flask==2.2.2`, `Werkzeug==2.3.8`, `psycopg2-binary==2.9.5` e `gunicorn==20.1.0`), reduzindo divergências entre builds. Um ponto de melhoria seria o upgrade/update das versões utilizadas.
+
 
 ### III. Configurações (Config)
 - **Status**: ✅ **Atende totalmente**
-- **Análise Técnica**: O código em [`app.py`](./app.py) lê estritamente todas as configurações por variáveis de ambiente (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT`) usando `os.getenv()`. Elas são injetadas externamente (via `docker-compose.yaml` em dev ou `export` na EC2). Nenhuma credencial está contida no código-fonte.
-- **Esclarecimento sobre o "arquivo/doc separado para variáveis" (`.env`)**:
-  - A intuição do time em ter um arquivo separado (como `.env`) faz todo sentido para organização local do projeto. 
-  - Para o 12-Factor, a regra estrita é que **o código não dependa de arquivos de configuração com credenciais dentro do repositório**. As variáveis devem vir do sistema operacional/ambiente de execução.
-  - **Boa Prática recomendada**: Criar um arquivo `.env.example` (versionado no Git) apenas listando os nomes das variáveis necessárias, e manter o arquivo `.env` real (com as credenciais de dev/prod) fora do Git (no `.gitignore`).
+- **Análise Técnica**: O código em [`app.py`](./app.py) lê estritamente todas as configurações por variáveis de ambiente (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT`) usando `os.getenv()`. Elas são injetadas externamente (via `docker-compose.yaml` em dev ou `export` na EC2). Nenhuma credencial está contida no código-fonte. Um ponto de melhoria seria criar um arquivo .env.example (versionado no Git) apenas listando os nomes das variáveis necessárias, e manter o arquivo .env real (com as credenciais de dev/prod) fora do Git (no .gitignore).
+
+
 
 ### IV. Serviços de Apoio (Backing Services)
 - **Status**: ✅ **Atende totalmente**
@@ -127,3 +126,48 @@ Abaixo está a projeção detalhada de custos para a infraestrutura provisionada
 ![Estimativa de Custos](./estimativa-custos.png)
 
 Também disponível em: https://calculator.aws/#/estimate?id=ee39fa3e25cfcab2f7f02eb89df31e97d9d46505
+
+# 5. Evolução da Segurança: Integração com AWS Secrets Manager
+
+Como evolução da arquitetura do **ToggleMaster**, foi planejada a integração com o **AWS Secrets Manager** para o gerenciamento de credenciais e dados sensíveis da aplicação.
+
+---
+
+## 5.1. Motivação e Alinhamento com o 12-Factor App
+
+Na versão MVP, as variáveis de conexão com o banco de dados (`DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_NAME`) são injetadas no ambiente de execução da EC2. Embora atenda ao Fator III (*Configurações*), a manutenção de credenciais em variáveis de ambiente na VM expõe riscos operacionais e de vazamento de segredos.
+
+Com a inclusão do **AWS Secrets Manager**, elevamos o nível de maturidade de segurança (DevSecOps) da infraestrutura.
+
+---
+
+## 5.2. Arquitetura da Solução e Benefícios
+
+1. **Gestão Centralizada de Segredos**:
+   - As credenciais do PostgreSQL no Amazon RDS são armazenadas de forma criptografada (via AWS KMS) diretamente no Secrets Manager, eliminando qualquer senha em texto plano no código, imagens Docker ou variáveis de ambiente locais.
+
+2. **Acesso Seguro via IAM Role**:
+   - A instância EC2 (ou futuro cluster ECS) utiliza uma **IAM Role** dedicada com a política `secretsmanager:GetSecretValue`. O acesso é concedido por identidade de recurso, eliminando a necessidade de chaves de acesso (`AWS_ACCESS_KEY_ID`) estáticas.
+
+3. **Rotação Automática de Credenciais**:
+   - Suporte nativo à rotação periódica e automatizada das senhas do banco de dados RDS sem necessidade de *downtime* ou intervenção manual.
+
+4. **Rastreabilidade e Auditoria**:
+   - Todas as requisições de leitura de segredos são registradas no **AWS CloudTrail**, garantindo total auditabilidade sobre quem acessou as credenciais e em qual momento.
+
+---
+
+## 5.3. Fluxo de Execução da Aplicação
+
+```text
+[ ToggleMaster (EC2/ECS) ] 
+         │
+         │ 1. Solicita segredo usando IAM Role (boto3)
+         ▼
+[ AWS Secrets Manager ] ──(Criptografia KMS)──► Retorna credenciais em memória
+         │
+         │ 2. Conecta utilizando credenciais obtidas
+         ▼
+[ Amazon RDS (PostgreSQL) ]
+```
+
