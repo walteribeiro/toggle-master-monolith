@@ -53,8 +53,6 @@ Análise crítica do alinhamento da aplicação com as boas práticas do 12-Fact
 - **Status**: ✅ **Atende totalmente**
 - **Análise Técnica**: O código em [`app.py`](./app.py) lê estritamente todas as configurações por variáveis de ambiente (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT`) usando `os.getenv()`. Elas são injetadas externamente (via `docker-compose.yaml` em dev ou `export` na EC2). Nenhuma credencial está contida no código-fonte. Um ponto de melhoria seria criar um arquivo .env.example (versionado no Git) apenas listando os nomes das variáveis necessárias, e manter o arquivo .env real (com as credenciais de dev/prod) fora do Git (no .gitignore).
 
-
-
 ### IV. Serviços de Apoio (Backing Services)
 - **Status**: ✅ **Atende totalmente**
 - **Clarificação**: No 12-Factor, *Serviços de Apoio* referem-se a recursos anexados à rede (como bancos de dados e caches). O PostgreSQL é tratado como um recurso anexo conectado via rede (`DB_HOST`). Trocar o banco local do Docker Compose para o Amazon RDS gerenciado não exige nenhuma alteração no código da aplicação.
